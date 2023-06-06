@@ -1,0 +1,1 @@
+C:\Users\Админ\source\repos\Algorithm\Sorting by selection method with swap\swap_in_sort_by_selection\x64\Debug\swap_in_sort_by_selection.exe
