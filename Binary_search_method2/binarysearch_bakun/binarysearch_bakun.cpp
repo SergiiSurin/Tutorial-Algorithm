@@ -7,61 +7,54 @@
 #include <iomanip>
 #include <limits.h>
 
+constexpr int SIZE = 30; // size of an array of int values
+constexpr int ROW = 15;
+constexpr int MIN = 0;	// minimum value of array's element
+constexpr int MAX = 500; // maximum value of array's element
 
 
-int getRandomNumber(int min, int max);
-int* firstArrayInition(const int SIZE, const int MIN, const int MAX);
-void printArray(const int* arr, const int SIZE, const int ROW);
-int findNextSmallest(const int* array, const int SIZE, int* oldSmallestIndex, int* oldSmallest);
-int* sortArray(const int* array, const int SIZE);
+int getRandomNumber(int &min, int &max);
+int* firstArrayInition(const int &SIZE, const int &MIN, const int &MAX);
+void printArray(const int* arr, const int &SIZE, const int &ROW);
+int findNextSmallest(const int* array, const int &SIZE, int* oldSmallestIndex, int* oldSmallest);
+int* sortArray(const int* array, const int &SIZE);
 int getValue();
-bool goodValues(const int *middleValue, const int *target);
-int binarysearch(const int* array, const int SIZE, const int* target);
+bool goodValues(const int &middleValue, const int &target);
+int binarysearch(const int* array, const int &SIZE, const int &target);
 
 int main()
 {
-	const int SIZE = 30; // size of an array of int values
-	const int ROW = 15;
-	const int MIN = 0;	// minimum value of array's element
-	const int MAX = 500; // maximum value of array's element
-
 	srand(static_cast<unsigned int>(time(0))); // set value of system timer into srand()  
 	rand(); // throw away the first result
 
 	int* array = firstArrayInition(SIZE, MIN, MAX);
-
 	printArray(array, SIZE, ROW);
 
 	int* newArray = sortArray(array, SIZE);
-
-	std::cout << std::endl;
-
 	printArray(newArray, SIZE, ROW);
 
-	std::cout << std::endl;
-
 	int target = getValue();
-	
-	int isFound = binarysearch(newArray, SIZE, &target);
-
+	int isFound = binarysearch(newArray, SIZE, target);
 	if(isFound==-1)
 		std::cout << "The value " << target << " isn't exist in this array" << std::endl;
 	else
 		std::cout << "The value " << target << " found in this array at index " << isFound << std::endl;
+
+	printArray(array, SIZE, ROW);
 
 	delete[] array;
 	delete[] newArray;
 	return 0;
 }
 
-int getRandomNumber(int min, int max)
+int getRandomNumber(const int &min, const int &max)
 {
 	static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
 
 	return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
 
-int* firstArrayInition(const int SIZE, const int MIN, const int MAX)
+int* firstArrayInition(const int &SIZE, const int &MIN, const int &MAX)
 {
 	int* arr = new int[SIZE]; // array 15xN 
 
@@ -72,17 +65,19 @@ int* firstArrayInition(const int SIZE, const int MIN, const int MAX)
 	return arr;
 }
 
-void printArray(const int* arr, const int SIZE, const int ROW)
+void printArray(const int* arr, const int &SIZE, const int &ROW)
 {
+	std::cout << std::endl;
 	for (int i = 0; i < SIZE; ++i)
 	{
 		std::cout << std::setw(3) << std::right << arr[i] << " ";
 		if (!((i + 1) % ROW))
 			std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
 
-int findNextSmallest(const int* array, const int SIZE, int* oldSmallestIndex, int* oldSmallest)
+int findNextSmallest(const int* array, const int &SIZE, int* oldSmallestIndex, int* oldSmallest)
 {
 	int smallestIndex = 0;
 	int smallest = INT_MAX;
@@ -107,7 +102,7 @@ int findNextSmallest(const int* array, const int SIZE, int* oldSmallestIndex, in
 	return smallestIndex;
 }
 
-int* sortArray(const int* array, const int SIZE)
+int* sortArray(const int* array, const int &SIZE)
 {
 	int* newArray = new int[SIZE];
 
@@ -147,22 +142,22 @@ int getValue()
 	}
 }
 
-bool goodValues(const int* middleValue, const int* target)
+bool goodValues(const int& middle, const int &target)
 {
-	return *middleValue <= *target;
+	return middle <= target;
 }
 
-int binarysearch(const int* array, const int SIZE, const int* target)
+int binarysearch(const int* array, const int &SIZE, const int &target)
 {
 	int l = -1;
 	int r = SIZE;
 	while ((r - l) > 1)
 	{
 		int middle = (l + r) / 2;
-		if (goodValues(&array[middle], &(*target)))
+		if (goodValues(array[middle], target))
 			l = middle;
 		else
 			r = middle;
 	}
-	return (array[l] != *target) ? -1 : l;
+	return (array[l] != target) ? -1 : l;
 }

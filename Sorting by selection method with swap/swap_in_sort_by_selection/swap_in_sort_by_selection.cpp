@@ -7,11 +7,11 @@
 #include <iomanip>
 #include <limits.h>
 
-int getRandomNumber(int min, int max);
-int* firstArrayInition(const int SIZE, const int MIN, const int MAX);
-void printArray(const int* arr, const int SIZE, const int ROW);
-void swap(int * value1, int* value2);
-void sortArray(int* arr, const int SIZE);
+int getRandomNumber(const int &min, const int &max);
+int* firstArrayInition(const int &SIZE, const int &MIN, const int &MAX);
+void printArray(const int* arr, const int &SIZE, const int &ROW);
+void swap(int* value1, int* value2);
+void sortArray(int* arr, const int &SIZE);
 
 
 int main()
@@ -30,8 +30,6 @@ printArray(array, SIZE, ROW);
 
 sortArray(array, SIZE);
 
-std::cout << std::endl;
-
 printArray(array, SIZE, ROW);
 
 
@@ -39,14 +37,14 @@ delete[] array;
 return 0;
 }
 
-int getRandomNumber(int min, int max)
+int getRandomNumber(const int &min,const int &max)
 {
 	static const double fraction = 1.0 / (static_cast<double>(RAND_MAX) + 1.0);
 
 	return static_cast<int>(rand() * fraction * (max - min + 1) + min);
 }
 
-int* firstArrayInition(const int SIZE, const int MIN, const int MAX)
+int* firstArrayInition(const int &SIZE, const int &MIN, const int &MAX)
 {
 	int* arr = new int[SIZE]; // array 15xN 
 
@@ -57,14 +55,17 @@ int* firstArrayInition(const int SIZE, const int MIN, const int MAX)
 	return arr;
 }
 
-void printArray(const int* arr, const int SIZE, const int ROW)
+void printArray(const int* arr, const int &SIZE, const int &ROW)
 {
+	if (!arr)
+		return;
 	for (int i = 0; i < SIZE; ++i)
 	{
 		std::cout << std::setw(3) << std::right << arr[i] << " ";
 		if (!((i + 1) % ROW))
 			std::cout << std::endl;
 	}
+	std::cout << std::endl;
 }
 
 void swap(int* value1, int* value2)
@@ -74,7 +75,7 @@ void swap(int* value1, int* value2)
 	*value2 = tmp;
 }
 
-void sortArray(int* arr, const int SIZE)
+void sortArray(int* arr, const int &SIZE)
 {
 	for (int startIndex = 0; startIndex < SIZE - 1; ++startIndex)
 	{

@@ -3,47 +3,63 @@
 #include <iostream>
 
 const int arr[] = { 1, 4, 8, 11, 17, 23, 24, 37, 40, 48, 49, 55, 56, 57, 58, 59, 60 };
-int binarySearch(const int* arr, int len, int searchNum);
+
+int binarySearch(const int* arr, int len, int target);
+int getValue();
 
 int main()
 {
-    int searchNum;
-    std::cout << "Enter a number to search between 0 and 60:\n";
-
-    while (true)
-    {
-        std::cin >> searchNum;
-        if ((searchNum < 0) || (searchNum > 60))
-        {
-            std::cout << "Please enter a valid search number between 0 and 60:\n";
-            continue;
-        }
-        break;
-    }
+    int targetValue = getValue();
+        
     int len = sizeof(arr) / sizeof(int);
-    int res = binarySearch(arr, len, searchNum);
+    int res = binarySearch(arr, len, targetValue);
     if (res != -1)
-        std::cout << "Number " << searchNum << " found in array by index " << res << std::endl;
+        std::cout << "Number " << targetValue << " found in array by index " << res << std::endl;
     else
-        std::cout << "The number " << searchNum << " does't exist in the array " << std::endl;
+        std::cout << "The number " << targetValue << " does't exist in the array " << std::endl;
 }
 
 
-int binarySearch(const int* arr, int len, int searchNum)
+int binarySearch(const int* arr, int len, int target)
 {
-    int low = 0;
-    int high = len - 1;
+    int l = 0;
+    int r = len - 1;
 
-    while (low <= high)
+    while (l <= r)
     {
-        int mid = (low + high) / 2;
-        int guess = arr[mid];
-        if (guess == searchNum)
+        int mid = (l + r) / 2;
+     
+        if (arr[mid] == target)
             return mid;
-        else if (guess > searchNum)
-            high = mid - 1;
+        else if (arr[mid] > target)
+            r = mid - 1;
         else
-            low = mid + 1;
+            l = mid + 1;
     }
     return -1;
+}
+
+int getValue()
+{
+    while (true)
+    {
+        
+        std::cout << "Enter any integer value between 0 and 60:\n";
+        int a;
+        std::cin >> a;
+
+
+        if (std::cin.fail())
+        {
+            std::cin.clear();
+            std::cin.ignore(32767, '\n');
+            std::cout << "Oops, that input is invalid.  Please try again.\n";
+        }
+        else
+        {
+            std::cin.ignore(32767, '\n');
+
+            return a;
+        }
+    }
 }
